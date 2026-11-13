@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }} - TaskFlow DSS{% endblock %}
+{% block page_title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <a class="btn" href="{% url 'project_list' %}">Back to projects</a>
+    <div class="toolbar-actions">
+      <a class="btn btn-primary" href="{% url 'project_edit' project.id %}">Edit</a>
+      <form method="post" action="{% url 'project_delete' project.id %}" onsubmit="return confirm('Delete this project and all related workers, tasks, and runs?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="detail-row">
+      <span class="label">Status</span>
+      <span class="badge badge-{{ project.status }}">{{ project.get_status_display }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Created</span>
+      <span>{{ project.created_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Updated</span>
+      <span>{{ project.updated_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-block">
+      <span class="label">Description</span>
+      <p>{% if project.description %}{{ project.description }}{% else %}No description.{% endif %}</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="stat">
+      <div class="label">Workers</div>
+      <div class="value">{{ worker_count }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Tasks</div>
+      <div class="value">{{ task_count }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Allocation runs</div>
+      <div class="value">{{ allocation_run_count }}</div>
+    </div>
+  </div>
+{% endblock %}

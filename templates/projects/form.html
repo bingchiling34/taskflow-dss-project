@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{% if mode == "create" %}New project{% else %}Edit project{% endif %} - TaskFlow DSS{% endblock %}
+{% block page_title %}{% if mode == "create" %}New project{% else %}Edit project{% endif %}{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <a class="btn" href="{% if mode == "edit" %}{% url 'project_detail' project.id %}{% else %}{% url 'project_list' %}{% endif %}">Cancel</a>
+  </div>
+
+  <div class="panel">
+    <form method="post" class="form">
+      {% csrf_token %}
+
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" maxlength="200" value="{{ form_data.name }}" required>
+        {% if errors.name %}<div class="form-error">{{ errors.name }}</div>{% endif %}
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4">{{ form_data.description }}</textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="active" {% if form_data.status == "active" %}selected{% endif %}>Active</option>
+          <option value="archived" {% if form_data.status == "archived" %}selected{% endif %}>Archived</option>
+        </select>
+        {% if errors.status %}<div class="form-error">{{ errors.status }}</div>{% endif %}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {% if mode == "create" %}Create project{% else %}Save changes{% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - TaskFlow DSS{% endblock %}
+{% block page_title %}Projects{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <p class="muted">Create and manage projects for task allocation.</p>
+    <a class="btn btn-primary" href="{% url 'project_create' %}">New project</a>
+  </div>
+
+  <div class="panel">
+    {% if projects %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in projects %}
+            <tr>
+              <td>
+                <a href="{% url 'project_detail' project.id %}">{{ project.name }}</a>
+              </td>
+              <td>
+                <span class="badge badge-{{ project.status }}">{{ project.get_status_display }}</span>
+              </td>
+              <td>{{ project.created_at|date:"Y-m-d H:i" }}</td>
+              <td class="actions">
+                <a href="{% url 'project_edit' project.id %}">Edit</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No projects yet. Create the first one to continue.</p>
+    {% endif %}
+  </div>
+{% endblock %}
