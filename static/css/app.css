@@ -267,6 +267,38 @@ a {
   font-size: 13px;
 }
 
+.field-hint {
+  margin-top: 6px;
+  color: #666666;
+  font-size: 12px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filter-row label {
+  font-size: 13px;
+  color: #666666;
+}
+
+.filter-row select {
+  min-width: 220px;
+  padding: 8px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font: inherit;
+  background: #ffffff;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 16px;
+}
+
 .form-actions {
   margin-top: 8px;
 }

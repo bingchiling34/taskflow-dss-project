@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ worker.name }} - TaskFlow DSS{% endblock %}
+{% block page_title %}{{ worker.name }}{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <a class="btn" href="{% url 'worker_list' %}?project={{ worker.project_id }}">Back to workers</a>
+    <div class="toolbar-actions">
+      <a class="btn btn-primary" href="{% url 'worker_edit' worker.id %}">Edit</a>
+      <form method="post" action="{% url 'worker_delete' worker.id %}" onsubmit="return confirm('Delete this worker?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="detail-row">
+      <span class="label">Project</span>
+      <a href="{% url 'project_detail' worker.project_id %}">{{ worker.project.name }}</a>
+    </div>
+    <div class="detail-row">
+      <span class="label">Skills</span>
+      <span>{% if skills_text %}{{ skills_text }}{% else %}No skills set.{% endif %}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Capacity</span>
+      <span>{{ worker.capacity_hours }} hours</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Created</span>
+      <span>{{ worker.created_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Updated</span>
+      <span>{{ worker.updated_at|date:"Y-m-d H:i" }}</span>
+    </div>
+  </div>
+{% endblock %}

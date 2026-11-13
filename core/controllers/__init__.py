@@ -6,4 +6,10 @@ from .project_controller import (
     project_edit,
     project_list,
 )
-
+from .worker_controller import (
+    worker_create,
+    worker_delete,
+    worker_detail,
+    worker_edit,
+    worker_list,
+)

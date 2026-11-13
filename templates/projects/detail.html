@@ -48,4 +48,12 @@
       <div class="value">{{ allocation_run_count }}</div>
     </div>
   </div>
+
+  <div class="toolbar">
+    <h2 class="section-title">Workers in this project</h2>
+    <a class="btn btn-primary" href="{% url 'worker_create' %}?project={{ project.id }}">Add worker</a>
+  </div>
+  <div class="panel">
+    <a href="{% url 'worker_list' %}?project={{ project.id }}">View workers for this project ({{ worker_count }})</a>
+  </div>
 {% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Workers - TaskFlow DSS{% endblock %}
+{% block page_title %}Workers{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <p class="muted">
+      {% if selected_project %}
+        Workers in project <strong>{{ selected_project.name }}</strong>.
+        <a href="{% url 'worker_list' %}">Show all</a>
+      {% else %}
+        Team members available for task allocation.
+      {% endif %}
+    </p>
+    <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New worker</a>
+  </div>
+
+  <div class="panel">
+    <form method="get" class="filter-row">
+      <label for="project">Filter by project</label>
+      <select id="project" name="project" onchange="this.form.submit()">
+        <option value="">All projects</option>
+        {% for project in projects %}
+          <option value="{{ project.id }}" {% if selected_project and selected_project.id == project.id %}selected{% endif %}>
+            {{ project.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% if workers %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Project</th>
+            <th>Skills</th>
+            <th>Capacity (h)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for worker in workers %}
+            <tr>
+              <td><a href="{% url 'worker_detail' worker.id %}">{{ worker.name }}</a></td>
+              <td>{{ worker.project.name }}</td>
+              <td>{% if worker.skills %}{{ worker.skills|join:", " }}{% else %}—{% endif %}</td>
+              <td>{{ worker.capacity_hours }}</td>
+              <td class="actions"><a href="{% url 'worker_edit' worker.id %}">Edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No workers yet. Create the first one to continue.</p>
+    {% endif %}
+  </div>
+{% endblock %}
