@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}TaskFlow DSS{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-name">TaskFlow DSS</div>
+        <div class="brand-tag">Decision support for task allocation</div>
+      </div>
+      <nav class="nav">
+        <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}is-active{% endif %}">Dashboard</a>
+        <a href="#" class="is-disabled">Projects</a>
+        <a href="#" class="is-disabled">Workers</a>
+        <a href="#" class="is-disabled">Tasks</a>
+        <a href="#" class="is-disabled">Allocation</a>
+        <a href="#" class="is-disabled">Analytics</a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+      </header>
+      <main class="content">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="panel message-box">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
