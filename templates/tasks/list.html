@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks - TaskFlow DSS{% endblock %}
+{% block page_title %}Tasks{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <p class="muted">
+      {% if selected_project %}
+        Tasks in project <strong>{{ selected_project.name }}</strong>.
+        <a href="{% url 'task_list' %}">Show all</a>
+      {% else %}
+        Tasks ready for allocation across projects.
+      {% endif %}
+    </p>
+    <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New task</a>
+  </div>
+
+  <div class="panel">
+    <form method="get" class="filter-row">
+      <label for="project">Filter by project</label>
+      <select id="project" name="project" onchange="this.form.submit()">
+        <option value="">All projects</option>
+        {% for project in projects %}
+          <option value="{{ project.id }}" {% if selected_project and selected_project.id == project.id %}selected{% endif %}>
+            {{ project.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% if tasks %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Priority</th>
+            <th>Hours</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr>
+              <td><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a></td>
+              <td>{{ task.project.name }}</td>
+              <td>{{ task.priority }}</td>
+              <td>{{ task.estimated_hours }}</td>
+              <td><span class="badge badge-{{ task.status }}">{{ task.get_status_display }}</span></td>
+              <td class="actions"><a href="{% url 'task_edit' task.id %}">Edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No tasks yet. Create the first one to continue.</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -21,7 +21,7 @@
         <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}is-active{% endif %}">Dashboard</a>
         <a href="{% url 'project_list' %}" class="{% if request.resolver_match.url_name == 'project_list' or request.resolver_match.url_name == 'project_create' or request.resolver_match.url_name == 'project_detail' or request.resolver_match.url_name == 'project_edit' %}is-active{% endif %}">Projects</a>
         <a href="{% url 'worker_list' %}" class="{% if request.resolver_match.url_name == 'worker_list' or request.resolver_match.url_name == 'worker_create' or request.resolver_match.url_name == 'worker_detail' or request.resolver_match.url_name == 'worker_edit' %}is-active{% endif %}">Workers</a>
-        <a href="#" class="is-disabled">Tasks</a>
+        <a href="{% url 'task_list' %}" class="{% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'task_create' or request.resolver_match.url_name == 'task_detail' or request.resolver_match.url_name == 'task_edit' %}is-active{% endif %}">Tasks</a>
         <a href="#" class="is-disabled">Allocation</a>
         <a href="#" class="is-disabled">Analytics</a>
       </nav>

@@ -6,6 +6,13 @@ from .project_controller import (
     project_edit,
     project_list,
 )
+from .task_controller import (
+    task_create,
+    task_delete,
+    task_detail,
+    task_edit,
+    task_list,
+)
 from .worker_controller import (
     worker_create,
     worker_delete,

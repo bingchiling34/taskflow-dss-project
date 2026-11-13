@@ -56,4 +56,12 @@
   <div class="panel">
     <a href="{% url 'worker_list' %}?project={{ project.id }}">View workers for this project ({{ worker_count }})</a>
   </div>
+
+  <div class="toolbar">
+    <h2 class="section-title">Tasks in this project</h2>
+    <a class="btn btn-primary" href="{% url 'task_create' %}?project={{ project.id }}">Add task</a>
+  </div>
+  <div class="panel">
+    <a href="{% url 'task_list' %}?project={{ project.id }}">View tasks for this project ({{ task_count }})</a>
+  </div>
 {% endblock %}

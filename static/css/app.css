@@ -235,6 +235,21 @@ a {
   color: #4b5563;
 }
 
+.badge-todo {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+.badge-in_progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-done {
+  background: #dcfce7;
+  color: #15803d;
+}
+
 .form {
   max-width: 560px;
 }

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }} - TaskFlow DSS{% endblock %}
+{% block page_title %}{{ task.title }}{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <a class="btn" href="{% url 'task_list' %}?project={{ task.project_id }}">Back to tasks</a>
+    <div class="toolbar-actions">
+      <a class="btn btn-primary" href="{% url 'task_edit' task.id %}">Edit</a>
+      <form method="post" action="{% url 'task_delete' task.id %}" onsubmit="return confirm('Delete this task?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="detail-row">
+      <span class="label">Project</span>
+      <a href="{% url 'project_detail' task.project_id %}">{{ task.project.name }}</a>
+    </div>
+    <div class="detail-row">
+      <span class="label">Status</span>
+      <span class="badge badge-{{ task.status }}">{{ task.get_status_display }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Priority</span>
+      <span>{{ task.priority }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Hours</span>
+      <span>{{ task.estimated_hours }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Skills</span>
+      <span>{% if skills_text %}{{ skills_text }}{% else %}No required skills.{% endif %}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Created</span>
+      <span>{{ task.created_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Updated</span>
+      <span>{{ task.updated_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-block">
+      <span class="label">Description</span>
+      <p>{% if task.description %}{{ task.description }}{% else %}No description.{% endif %}</p>
+    </div>
+  </div>
+{% endblock %}
