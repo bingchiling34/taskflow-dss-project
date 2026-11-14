@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 
 from core.controllers import (
     allocation_home,
@@ -6,7 +7,6 @@ from core.controllers import (
     allocation_run_delete,
     allocation_run_detail,
     analytics_home,
-    home,
     project_create,
     project_delete,
     project_detail,
@@ -25,7 +25,10 @@ from core.controllers import (
 )
 
 urlpatterns = [
-    path("", home, name="home"),
+    path(
+        "",
+        RedirectView.as_view(pattern_name="project_list", permanent=False),
+    ),
     path("projects/", project_list, name="project_list"),
     path("projects/new/", project_create, name="project_create"),
     path("projects/<int:project_id>/", project_detail, name="project_detail"),

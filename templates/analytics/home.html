@@ -4,6 +4,32 @@
 {% block page_title %}Analytics{% endblock %}
 
 {% block content %}
+  <div class="panel">
+    <h2>Overview</h2>
+    <p>
+      Manage projects, allocate tasks across your team, and compare allocation strategies.
+    </p>
+  </div>
+
+  <div class="grid">
+    <div class="stat">
+      <div class="label">Projects</div>
+      <div class="value">{{ project_count }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Workers</div>
+      <div class="value">{{ worker_count }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Tasks</div>
+      <div class="value">{{ task_count }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Allocation runs</div>
+      <div class="value">{{ allocation_run_count }}</div>
+    </div>
+  </div>
+
   <div class="toolbar">
     <p class="muted">Compare allocation algorithms using duration, load balance, and assigned tasks.</p>
   </div>
