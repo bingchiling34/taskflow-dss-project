@@ -1,4 +1,5 @@
 from .allocation_run_repository import AllocationRunRepository
+from .assignment_repository import AssignmentRepository
 from .project_repository import ProjectRepository
 from .task_repository import TaskRepository
 from .worker_repository import WorkerRepository

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ algorithm_label }} - Allocation - TaskFlow DSS{% endblock %}
+{% block page_title %}{{ algorithm_label }}{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <a class="btn" href="{% url 'allocation_home' %}?project={{ run.project_id }}">Back to allocation</a>
+    <div class="toolbar-actions">
+      <form method="post" action="{% url 'allocation_run_delete' run.id %}" onsubmit="return confirm('Delete this allocation run?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="detail-row">
+      <span class="label">Project</span>
+      <a href="{% url 'project_detail' run.project_id %}">{{ run.project.name }}</a>
+    </div>
+    <div class="detail-row">
+      <span class="label">Algorithm</span>
+      <span>{{ algorithm_label }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Duration</span>
+      <span>{{ run.total_duration_hours }} hours</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Load balance</span>
+      <span>{{ run.load_balance_score }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Assigned</span>
+      <span>{{ run.completed_tasks_count }} tasks</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Created</span>
+      <span>{{ run.created_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="detail-block">
+      <span class="label">Notes</span>
+      <p>{% if run.notes %}{{ run.notes }}{% else %}—{% endif %}</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Assignments</h2>
+    {% if assignments %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Hours</th>
+            <th>Required skills</th>
+            <th>Worker</th>
+            <th>Worker skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in assignments %}
+            <tr>
+              <td>{{ item.task.title }}</td>
+              <td>{{ item.task.estimated_hours }}</td>
+              <td>{% if item.task.required_skills %}{{ item.task.required_skills|join:", " }}{% else %}—{% endif %}</td>
+              <td>{{ item.worker.name }}</td>
+              <td>{% if item.worker.skills %}{{ item.worker.skills|join:", " }}{% else %}—{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">No assignments were created for this run.</p>
+    {% endif %}
+  </div>
+{% endblock %}

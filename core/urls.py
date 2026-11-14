@@ -1,6 +1,10 @@
 from django.urls import path
 
 from core.controllers import (
+    allocation_home,
+    allocation_run,
+    allocation_run_delete,
+    allocation_run_detail,
     home,
     project_create,
     project_delete,
@@ -36,4 +40,12 @@ urlpatterns = [
     path("tasks/<int:task_id>/", task_detail, name="task_detail"),
     path("tasks/<int:task_id>/edit/", task_edit, name="task_edit"),
     path("tasks/<int:task_id>/delete/", task_delete, name="task_delete"),
+    path("allocation/", allocation_home, name="allocation_home"),
+    path("allocation/run/", allocation_run, name="allocation_run"),
+    path("allocation/runs/<int:run_id>/", allocation_run_detail, name="allocation_run_detail"),
+    path(
+        "allocation/runs/<int:run_id>/delete/",
+        allocation_run_delete,
+        name="allocation_run_delete",
+    ),
 ]

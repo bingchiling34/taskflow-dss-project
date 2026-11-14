@@ -1,3 +1,9 @@
+from .allocation_controller import (
+    allocation_home,
+    allocation_run,
+    allocation_run_delete,
+    allocation_run_detail,
+)
 from .home_controller import home
 from .project_controller import (
     project_create,

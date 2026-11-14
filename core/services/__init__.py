@@ -1,3 +1,4 @@
+from .allocation_service import AllocationService
 from .dashboard_service import DashboardService
 from .project_service import ProjectService
 from .task_service import TaskService

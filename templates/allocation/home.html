@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Allocation - TaskFlow DSS{% endblock %}
+{% block page_title %}Allocation{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <p class="muted">Run allocation algorithms and compare resulting assignments.</p>
+  </div>
+
+  <div class="panel">
+    <form method="get" class="filter-row">
+      <label for="project">Project</label>
+      <select id="project" name="project" onchange="this.form.submit()">
+        <option value="">Select project</option>
+        {% for project in projects %}
+          <option value="{{ project.id }}" {% if selected_project and selected_project.id == project.id %}selected{% endif %}>
+            {{ project.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% if selected_project %}
+      <form method="post" action="{% url 'allocation_run' %}" class="form">
+        {% csrf_token %}
+        <input type="hidden" name="project_id" value="{{ selected_project.id }}">
+        <input type="hidden" name="mode" value="one">
+
+        <div class="form-field">
+          <label for="algorithm">Algorithm</label>
+          <select id="algorithm" name="algorithm" required>
+            {% for key, label in algorithms %}
+              <option value="{{ key }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Run selected</button>
+        </div>
+      </form>
+
+      <form method="post" action="{% url 'allocation_run' %}" style="margin-top: 12px;">
+        {% csrf_token %}
+        <input type="hidden" name="project_id" value="{{ selected_project.id }}">
+        <input type="hidden" name="mode" value="all">
+        <button type="submit" class="btn">Run all algorithms</button>
+      </form>
+    {% else %}
+      <p class="muted">Select a project to run allocation.</p>
+    {% endif %}
+  </div>
+
+  {% if selected_project %}
+    <div class="panel">
+      <h2>Previous runs</h2>
+      {% if run_rows %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Duration (h)</th>
+              <th>Load balance</th>
+              <th>Assigned tasks</th>
+              <th>Created</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in run_rows %}
+              <tr>
+                <td>
+                  <a href="{% url 'allocation_run_detail' row.run.id %}">{{ row.label }}</a>
+                </td>
+                <td>{{ row.run.total_duration_hours }}</td>
+                <td>{{ row.run.load_balance_score }}</td>
+                <td>{{ row.run.completed_tasks_count }}</td>
+                <td>{{ row.run.created_at|date:"Y-m-d H:i" }}</td>
+                <td class="actions">
+                  <a href="{% url 'allocation_run_detail' row.run.id %}">Open</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="field-hint">Load balance = max load minus min load (lower is better). Duration = max worker load.</p>
+      {% else %}
+        <p class="muted">No allocation runs for this project yet.</p>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}
