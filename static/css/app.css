@@ -338,6 +338,20 @@ a {
   white-space: pre-wrap;
 }
 
+.chart-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chart-box {
+  height: 240px;
+}
+
+.chart-box-pie {
+  height: 260px;
+}
+
 @media (max-width: 900px) {
   .app-shell {
     flex-direction: column;
@@ -355,5 +369,9 @@ a {
   .toolbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .chart-pair {
+    grid-template-columns: 1fr;
   }
 }

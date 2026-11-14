@@ -4,6 +4,7 @@ from .allocation_controller import (
     allocation_run_delete,
     allocation_run_detail,
 )
+from .analytics_controller import analytics_home
 from .home_controller import home
 from .project_controller import (
     project_create,

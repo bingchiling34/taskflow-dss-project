@@ -5,6 +5,7 @@ from core.controllers import (
     allocation_run,
     allocation_run_delete,
     allocation_run_detail,
+    analytics_home,
     home,
     project_create,
     project_delete,
@@ -48,4 +49,5 @@ urlpatterns = [
         allocation_run_delete,
         name="allocation_run_delete",
     ),
+    path("analytics/", analytics_home, name="analytics_home"),
 ]

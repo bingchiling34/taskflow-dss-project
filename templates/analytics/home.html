@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - TaskFlow DSS{% endblock %}
+{% block page_title %}Analytics{% endblock %}
+
+{% block content %}
+  <div class="toolbar">
+    <p class="muted">Compare allocation algorithms using duration, load balance, and assigned tasks.</p>
+  </div>
+
+  <div class="panel">
+    <form method="get" class="filter-row">
+      <label for="project">Project</label>
+      <select id="project" name="project" onchange="this.form.submit()">
+        <option value="">Select project</option>
+        {% for project in projects %}
+          <option value="{{ project.id }}" {% if selected_project and selected_project.id == project.id %}selected{% endif %}>
+            {{ project.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+
+  {% if not selected_project %}
+    <div class="panel">
+      <p class="muted">Select a project to see analytics.</p>
+    </div>
+  {% elif not comparison.has_data %}
+    <div class="panel">
+      <p class="muted">
+        No allocation runs for this project yet.
+        Go to <a href="{% url 'allocation_home' %}?project={{ selected_project.id }}">Allocation</a>
+        and run algorithms first.
+      </p>
+    </div>
+  {% else %}
+    <div class="panel">
+      <h2>Recommendation</h2>
+      <p>
+        {% if comparison.best_duration %}
+          Lowest duration:
+          <strong>{{ comparison.best_duration.algorithm_label }}</strong>
+          ({{ comparison.best_duration.duration }} h).
+        {% endif %}
+        {% if comparison.best_balance %}
+          Best load balance:
+          <strong>{{ comparison.best_balance.algorithm_label }}</strong>
+          ({{ comparison.best_balance.load_balance }}).
+        {% endif %}
+      </p>
+      <p class="field-hint">Charts use the latest run for each algorithm.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Comparison table</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Algorithm</th>
+            <th>Duration (h)</th>
+            <th>Load balance</th>
+            <th>Assigned tasks</th>
+            <th>Run created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in comparison.rows %}
+            <tr>
+              <td>{{ row.algorithm_label }}</td>
+              <td>{{ row.duration }}</td>
+              <td>{{ row.load_balance }}</td>
+              <td>{{ row.assigned_tasks }}</td>
+              <td>{{ row.run.created_at|date:"Y-m-d H:i" }}</td>
+              <td class="actions">
+                <a href="{% url 'allocation_run_detail' row.run.id %}">Open run</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h2>Duration (hours)</h2>
+      <div class="chart-pair">
+        <div class="chart-box">
+          <canvas id="durationBarChart"></canvas>
+        </div>
+        <div class="chart-box chart-box-pie">
+          <canvas id="durationPieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Load balance</h2>
+      <div class="chart-pair">
+        <div class="chart-box">
+          <canvas id="balanceBarChart"></canvas>
+        </div>
+        <div class="chart-box chart-box-pie">
+          <canvas id="balanceDoughnutChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Assigned tasks</h2>
+      <div class="chart-pair">
+        <div class="chart-box">
+          <canvas id="assignedBarChart"></canvas>
+        </div>
+        <div class="chart-box chart-box-pie">
+          <canvas id="assignedPieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    {{ comparison.chart_labels|json_script:"chart-labels" }}
+    {{ comparison.chart_durations|json_script:"chart-durations" }}
+    {{ comparison.chart_balances|json_script:"chart-balances" }}
+    {{ comparison.chart_assigned|json_script:"chart-assigned" }}
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+  {% if comparison and comparison.has_data %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+      const labels = JSON.parse(document.getElementById("chart-labels").textContent);
+      const durations = JSON.parse(document.getElementById("chart-durations").textContent);
+      const balances = JSON.parse(document.getElementById("chart-balances").textContent);
+      const assigned = JSON.parse(document.getElementById("chart-assigned").textContent);
+      const pieColors = ["#0f766e", "#1d4ed8", "#15803d"];
+
+      function makeBarChart(canvasId, title, values, color) {
+        const canvas = document.getElementById(canvasId);
+        new Chart(canvas, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [{
+              label: title,
+              data: values,
+              backgroundColor: color
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      function makeRoundChart(canvasId, chartType, title, values) {
+        const canvas = document.getElementById(canvasId);
+        new Chart(canvas, {
+          type: chartType,
+          data: {
+            labels: labels,
+            datasets: [{
+              label: title,
+              data: values,
+              backgroundColor: pieColors
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "bottom" }
+            }
+          }
+        });
+      }
+
+      makeBarChart("durationBarChart", "Duration", durations, "#0f766e");
+      makeRoundChart("durationPieChart", "pie", "Duration", durations);
+
+      makeBarChart("balanceBarChart", "Load balance", balances, "#1d4ed8");
+      makeRoundChart("balanceDoughnutChart", "doughnut", "Load balance", balances);
+
+      makeBarChart("assignedBarChart", "Assigned tasks", assigned, "#15803d");
+      makeRoundChart("assignedPieChart", "pie", "Assigned tasks", assigned);
+    </script>
+  {% endif %}
+{% endblock %}
