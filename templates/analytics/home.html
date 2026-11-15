@@ -163,7 +163,7 @@
       const durations = JSON.parse(document.getElementById("chart-durations").textContent);
       const balances = JSON.parse(document.getElementById("chart-balances").textContent);
       const assigned = JSON.parse(document.getElementById("chart-assigned").textContent);
-      const pieColors = ["#0f766e", "#1d4ed8", "#15803d"];
+      const pieColors = ["#7c3aed", "#a78bfa", "#5b21b6"];
 
       function makeBarChart(canvasId, title, values, color) {
         const canvas = document.getElementById(canvasId);
@@ -212,13 +212,13 @@
         });
       }
 
-      makeBarChart("durationBarChart", "Duration", durations, "#0f766e");
+      makeBarChart("durationBarChart", "Duration", durations, "#7c3aed");
       makeRoundChart("durationPieChart", "pie", "Duration", durations);
 
-      makeBarChart("balanceBarChart", "Load balance", balances, "#1d4ed8");
+      makeBarChart("balanceBarChart", "Load balance", balances, "#a78bfa");
       makeRoundChart("balanceDoughnutChart", "doughnut", "Load balance", balances);
 
-      makeBarChart("assignedBarChart", "Assigned tasks", assigned, "#15803d");
+      makeBarChart("assignedBarChart", "Assigned tasks", assigned, "#5b21b6");
       makeRoundChart("assignedPieChart", "pie", "Assigned tasks", assigned);
     </script>
   {% endif %}
