@@ -406,17 +406,23 @@ a {
   font-weight: 400;
 }
 
+.workload-hint {
+  margin: 0 0 18px 0;
+  padding: 0;
+}
+
 .workload-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: 0;
 }
 
 .workload-item {
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-soft);
+  padding: 16px 18px;
+  border: 1px solid #d7e5f0;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef6fb 100%);
 }
 
 .workload-top {
@@ -429,23 +435,29 @@ a {
 
 .workload-name {
   font-weight: 700;
-  color: var(--primary-text);
+  color: #0f4c81;
+}
+
+.workload-name:hover {
+  color: #0b3b66;
+  text-decoration: underline;
 }
 
 .workload-meta {
   margin-top: 4px;
-  color: var(--muted);
+  color: #5b6b7c;
   font-size: 13px;
 }
 
 .workload-hours {
   font-weight: 700;
   white-space: nowrap;
+  color: #243447;
 }
 
 .workload-bar {
   height: 10px;
-  background: #ebe7f5;
+  background: #d9e7f2;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -456,20 +468,20 @@ a {
 }
 
 .workload-bar-fill.level-ok {
-  background: var(--ok);
+  background: #0d9488;
 }
 
 .workload-bar-fill.level-warn {
-  background: var(--warn);
+  background: #d97706;
 }
 
 .workload-bar-fill.level-full {
-  background: var(--full);
+  background: #e11d48;
 }
 
 .workload-caption {
   margin-top: 8px;
-  color: var(--muted);
+  color: #5b6b7c;
   font-size: 13px;
 }
 
@@ -478,9 +490,14 @@ a {
 }
 
 .workload-actions a {
-  color: var(--primary);
+  color: #0f766e;
   font-size: 13px;
   font-weight: 600;
+}
+
+.workload-actions a:hover {
+  color: #0d9488;
+  text-decoration: underline;
 }
 
 .btn {
@@ -687,8 +704,8 @@ form.is-loading {
 }
 
 .field-hint {
-  margin-top: 16px;
-  margin-bottom: 4px;
+  margin: 12px 0 0 0;
+  padding-bottom: 18px;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
@@ -696,14 +713,18 @@ form.is-loading {
 
 .form-field .field-hint {
   margin-top: 8px;
-  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.panel > .field-hint:last-child {
+  padding-bottom: 0;
 }
 
 .filter-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .filter-row label {
