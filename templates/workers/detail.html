@@ -38,4 +38,23 @@
       <span>{{ worker.updated_at|friendly_date }}</span>
     </div>
   </div>
+
+  {% if workload %}
+    <div class="panel">
+      <h2>Workload</h2>
+      <div class="workload-item">
+        <div class="workload-top">
+          <div class="workload-meta">Based on the latest allocation run</div>
+          <div class="workload-hours">{{ workload.used_hours }}/{{ workload.capacity_hours }} h</div>
+        </div>
+        <div class="workload-bar">
+          <div class="workload-bar-fill level-{{ workload.level }}" style="width: {{ workload.bar_width }}%;"></div>
+        </div>
+        <div class="workload-caption">
+          {{ workload.percent }}% of available capacity
+          {% if not workload.has_run %} · no allocation run yet{% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

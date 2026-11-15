@@ -3,3 +3,4 @@ from .analytics_service import AnalyticsService
 from .project_service import ProjectService
 from .task_service import TaskService
 from .worker_service import WorkerService
+from .workload_service import WorkloadService

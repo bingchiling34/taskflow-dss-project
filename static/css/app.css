@@ -168,6 +168,84 @@ a {
   margin-bottom: 16px;
 }
 
+.workload-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workload-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.workload-item:last-child {
+  border-bottom: none;
+}
+
+.workload-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.workload-name {
+  font-weight: 600;
+  color: #0f766e;
+}
+
+.workload-meta {
+  margin-top: 4px;
+  color: #666666;
+  font-size: 13px;
+}
+
+.workload-hours {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.workload-bar {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.workload-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.workload-bar-fill.level-ok {
+  background: #22c55e;
+}
+
+.workload-bar-fill.level-warn {
+  background: #eab308;
+}
+
+.workload-bar-fill.level-full {
+  background: #ef4444;
+}
+
+.workload-caption {
+  margin-top: 6px;
+  color: #666666;
+  font-size: 13px;
+}
+
+.workload-actions {
+  margin-top: 8px;
+}
+
+.workload-actions a {
+  color: #0f766e;
+  font-size: 13px;
+}
+
 .btn {
   display: inline-block;
   border: 1px solid #cccccc;

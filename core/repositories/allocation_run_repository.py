@@ -12,6 +12,14 @@ class AllocationRunRepository:
             .all()
         )
 
+    def get_latest_by_project(self, project_id):
+        return (
+            AllocationRun.objects.filter(project_id=project_id)
+            .select_related("project")
+            .first()
+        )
+
+
     def list_all(self):
         return list(AllocationRun.objects.select_related("project").all())
 

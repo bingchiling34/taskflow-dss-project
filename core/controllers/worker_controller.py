@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from core.models import Worker
-from core.services import ProjectService, WorkerService
+from core.services import ProjectService, WorkerService, WorkloadService
 
 
 def worker_list(request):
@@ -17,11 +17,13 @@ def worker_list(request):
     else:
         workers = service.list_workers()
 
+    workload_rows = WorkloadService().build_rows(workers)
+
     return render(
         request,
         "workers/list.html",
         {
-            "workers": workers,
+            "workload_rows": workload_rows,
             "selected_project": selected_project,
             "projects": ProjectService().list_projects(),
         },
@@ -83,12 +85,14 @@ def worker_create(request):
 
 def worker_detail(request, worker_id):
     worker = get_object_or_404(Worker.objects.select_related("project"), pk=worker_id)
+    workload = WorkloadService().build_one(worker)
     return render(
         request,
         "workers/detail.html",
         {
             "worker": worker,
             "skills_text": WorkerService().skills_to_text(worker.skills),
+            "workload": workload,
         },
     )
 
