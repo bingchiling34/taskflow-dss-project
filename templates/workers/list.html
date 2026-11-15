@@ -13,7 +13,7 @@
         Team members available for task allocation.
       {% endif %}
     </p>
-    <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New worker</a>
+    <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">{% include "partials/icon.html" with name="i-plus" %} New worker</a>
   </div>
 
   {% include "partials/warnings.html" %}
@@ -65,9 +65,10 @@
       </div>
     {% else %}
       <div class="empty-state">
+        <div class="empty-icon">{% include "partials/icon.html" with name="i-users" %}</div>
         <p>No workers yet.</p>
         <p class="muted">Add team members to prepare for task allocation.</p>
-        <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New worker</a>
+        <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">{% include "partials/icon.html" with name="i-plus" %} New worker</a>
       </div>
     {% endif %}
   </div>

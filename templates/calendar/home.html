@@ -6,7 +6,7 @@
 {% block content %}
   <div class="toolbar">
     <p class="muted">Tasks with a due date, shown by month.</p>
-    <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New task</a>
+    <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">{% include "partials/icon.html" with name="i-plus" %} New task</a>
   </div>
 
   <div class="panel">

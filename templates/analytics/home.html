@@ -6,28 +6,52 @@
 
 {% block content %}
   <div class="panel">
-    <h2>Overview</h2>
+    <h2 class="panel-title">{% include "partials/icon.html" with name="i-chart" class="icon-title" %} Overview</h2>
     <p>
       Manage projects, allocate tasks across your team, and compare allocation strategies.
     </p>
   </div>
 
   <div class="grid">
-    <div class="stat">
-      <div class="label">Projects</div>
-      <div class="value">{{ project_count }}</div>
+    <div class="stat stat-blue">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-folder" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ project_count }}</span>
+          <span class="label">projects</span>
+        </div>
+        <div class="stat-caption">in workspace</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="label">Workers</div>
-      <div class="value">{{ worker_count }}</div>
+    <div class="stat stat-yellow">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-users" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ worker_count }}</span>
+          <span class="label">workers</span>
+        </div>
+        <div class="stat-caption">across all projects</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="label">Tasks</div>
-      <div class="value">{{ task_count }}</div>
+    <div class="stat stat-orange">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-list" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ task_count }}</span>
+          <span class="label">tasks</span>
+        </div>
+        <div class="stat-caption">ready for allocation</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="label">Allocation runs</div>
-      <div class="value">{{ allocation_run_count }}</div>
+    <div class="stat stat-purple">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-shuffle" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ allocation_run_count }}</span>
+          <span class="label">runs</span>
+        </div>
+        <div class="stat-caption">allocation comparisons</div>
+      </div>
     </div>
   </div>
 
@@ -52,6 +76,7 @@
   {% if not selected_project %}
     <div class="panel">
       <div class="empty-state">
+        <div class="empty-icon">{% include "partials/icon.html" with name="i-inbox" %}</div>
         <p>No project selected.</p>
         <p class="muted">Choose a project above to compare allocation algorithms.</p>
       </div>
@@ -59,14 +84,15 @@
   {% elif not comparison.has_data %}
     <div class="panel">
       <div class="empty-state">
+        <div class="empty-icon">{% include "partials/icon.html" with name="i-inbox" %}</div>
         <p>No allocation runs for this project yet.</p>
         <p class="muted">Run algorithms first, then return here to compare results.</p>
-        <a class="btn btn-primary" href="{% url 'allocation_home' %}?project={{ selected_project.id }}">Go to Allocation</a>
+        <a class="btn btn-primary" href="{% url 'allocation_home' %}?project={{ selected_project.id %}">{% include "partials/icon.html" with name="i-shuffle" %} Go to Allocation</a>
       </div>
     </div>
   {% else %}
     <div class="panel">
-      <h2>Recommendation</h2>
+      <h2 class="panel-title">{% include "partials/icon.html" with name="i-spark" class="icon-title" %} Recommendation</h2>
       <p>
         {% if comparison.best_duration %}
           Lowest duration:

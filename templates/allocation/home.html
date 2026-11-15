@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Run selected</button>
+          <button type="submit" class="btn btn-primary">{% include "partials/icon.html" with name="i-play" %} Run selected</button>
         </div>
       </form>
 
@@ -46,7 +46,7 @@
         {% csrf_token %}
         <input type="hidden" name="project_id" value="{{ selected_project.id }}">
         <input type="hidden" name="mode" value="all">
-        <button type="submit" class="btn">Run all algorithms</button>
+        <button type="submit" class="btn">{% include "partials/icon.html" with name="i-shuffle" %} Run all algorithms</button>
       </form>
     {% else %}
       <p class="muted">Select a project to run allocation.</p>
@@ -90,6 +90,7 @@
         <p class="field-hint">Load balance = max load minus min load (lower is better). Duration = max worker load.</p>
       {% else %}
         <div class="empty-state">
+          <div class="empty-icon">{% include "partials/icon.html" with name="i-shuffle" %}</div>
           <p>No allocation runs yet.</p>
           <p class="muted">Run an algorithm above to create the first comparison result.</p>
         </div>

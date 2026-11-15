@@ -1,6 +1,6 @@
 {% if warnings %}
   <div class="panel warning-panel">
-    <h2>Warnings</h2>
+    <h2 class="panel-title">{% include "partials/icon.html" with name="i-alert" class="icon-title" %} Warnings</h2>
     <ul class="warning-list">
       {% for item in warnings %}
         <li class="warning-item warning-{{ item.kind }}">{{ item.text }}</li>

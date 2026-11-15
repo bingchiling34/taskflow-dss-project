@@ -6,9 +6,9 @@
 
 {% block content %}
   <div class="toolbar">
-    <a class="btn" href="{% url 'project_list' %}">Back to projects</a>
+    <a class="btn" href="{% url 'project_list' %}">{% include "partials/icon.html" with name="i-back" %} Back to projects</a>
     <div class="toolbar-actions">
-      <a class="btn btn-primary" href="{% url 'project_edit' project.id %}">Edit</a>
+      <a class="btn btn-primary" href="{% url 'project_edit' project.id %}">{% include "partials/icon.html" with name="i-edit" %} Edit</a>
       <form method="post" action="{% url 'project_delete' project.id %}" onsubmit="return confirm('Delete this project and all related workers, tasks, and runs?');">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete</button>
@@ -38,44 +38,52 @@
   </div>
 
   <div class="grid grid-3">
-    <div class="stat">
-      <div class="label">Workers</div>
-      <div class="value">{{ worker_count }}</div>
+    <div class="stat stat-yellow">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-users" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ worker_count }}</span>
+          <span class="label">workers</span>
+        </div>
+        <div class="stat-caption">in this project</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="label">Tasks</div>
-      <div class="value">{{ task_count }}</div>
+    <div class="stat stat-orange">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-list" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ task_count }}</span>
+          <span class="label">tasks</span>
+        </div>
+        <div class="stat-caption">in this project</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="label">Allocation runs</div>
-      <div class="value">{{ allocation_run_count }}</div>
+    <div class="stat stat-purple">
+      <span class="stat-icon">{% include "partials/icon.html" with name="i-shuffle" %}</span>
+      <div class="stat-body">
+        <div class="stat-main">
+          <span class="value">{{ allocation_run_count }}</span>
+          <span class="label">runs</span>
+        </div>
+        <div class="stat-caption">allocation comparisons</div>
+      </div>
     </div>
   </div>
 
   <div class="toolbar">
-    <h2 class="section-title">Workers in this project</h2>
-    <a class="btn btn-primary" href="{% url 'worker_create' %}?project={{ project.id }}">Add worker</a>
+    <h2 class="section-title">{% include "partials/icon.html" with name="i-users" class="icon-title" %} Workers in this project</h2>
+    <a class="btn btn-primary" href="{% url 'worker_create' %}?project={{ project.id }}">{% include "partials/icon.html" with name="i-plus" %} Add worker</a>
   </div>
   <div class="panel">
     <a class="panel-link" href="{% url 'worker_list' %}?project={{ project.id }}">View workers for this project ({{ worker_count }})</a>
   </div>
 
   <div class="toolbar">
-    <h2 class="section-title">Tasks in this project</h2>
-    <a class="btn btn-primary" href="{% url 'task_create' %}?project={{ project.id }}">Add task</a>
+    <h2 class="section-title">{% include "partials/icon.html" with name="i-list" class="icon-title" %} Tasks in this project</h2>
+    <a class="btn btn-primary" href="{% url 'task_create' %}?project={{ project.id }}">{% include "partials/icon.html" with name="i-plus" %} Add task</a>
   </div>
   <div class="panel">
     <a class="panel-link" href="{% url 'task_list' %}?project={{ project.id }}">View tasks for this project ({{ task_count }})</a>
   </div>
 
-  <div class="toolbar">
-    <h2 class="section-title">Decision tools</h2>
-  </div>
-  <div class="panel">
-    <a class="panel-link" href="{% url 'allocation_home' %}?project={{ project.id }}">Run allocation</a>
-    <span class="muted"> · </span>
-    <a class="panel-link" href="{% url 'analytics_home' %}?project={{ project.id }}">Compare algorithms</a>
-    <span class="muted"> · </span>
-    <a class="panel-link" href="{% url 'calendar_home' %}?project={{ project.id }}">Open calendar</a>
-  </div>
 {% endblock %}

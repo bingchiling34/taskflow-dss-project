@@ -13,7 +13,7 @@
         Tasks ready for allocation across projects.
       {% endif %}
     </p>
-    <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New task</a>
+    <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">{% include "partials/icon.html" with name="i-plus" %} New task</a>
   </div>
 
   <div class="panel">
@@ -58,9 +58,10 @@
       </table>
     {% else %}
       <div class="empty-state">
+        <div class="empty-icon">{% include "partials/icon.html" with name="i-list" %}</div>
         <p>No tasks yet.</p>
         <p class="muted">Create tasks with skills and hours for allocation.</p>
-        <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New task</a>
+        <a class="btn btn-primary" href="{% url 'task_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">{% include "partials/icon.html" with name="i-plus" %} New task</a>
       </div>
     {% endif %}
   </div>

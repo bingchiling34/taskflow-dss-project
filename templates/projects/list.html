@@ -7,7 +7,7 @@
 {% block content %}
   <div class="toolbar">
     <p class="muted">Create and manage projects for task allocation.</p>
-    <a class="btn btn-primary" href="{% url 'project_create' %}">New project</a>
+    <a class="btn btn-primary" href="{% url 'project_create' %}">{% include "partials/icon.html" with name="i-plus" %} New project</a>
   </div>
 
   <div class="panel">
@@ -32,7 +32,7 @@
               </td>
               <td>{{ project.created_at|friendly_date }}</td>
               <td class="actions">
-                <a href="{% url 'project_edit' project.id %}">Edit</a>
+                <a href="{% url 'project_edit' project.id %}">{% include "partials/icon.html" with name="i-edit" %} Edit</a>
               </td>
             </tr>
           {% endfor %}
@@ -40,9 +40,10 @@
       </table>
     {% else %}
       <div class="empty-state">
+        <div class="empty-icon">{% include "partials/icon.html" with name="i-folder" %}</div>
         <p>No projects yet.</p>
         <p class="muted">Create the first project to start allocating tasks.</p>
-        <a class="btn btn-primary" href="{% url 'project_create' %}">New project</a>
+        <a class="btn btn-primary" href="{% url 'project_create' %}">{% include "partials/icon.html" with name="i-plus" %} New project</a>
       </div>
     {% endif %}
   </div>
