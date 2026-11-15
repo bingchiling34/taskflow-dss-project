@@ -761,6 +761,13 @@ form.is-loading {
   gap: 16px;
 }
 
+.chart-subtitle {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--muted);
+}
+
 .chart-box {
   height: 240px;
 }

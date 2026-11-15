@@ -145,8 +145,8 @@ class SeedService:
                         "skills": "python, django",
                         "estimated_hours": "6",
                         "priority": "1",
-                        "status": "todo",
-                        "due_in_days": 2,
+                        "status": "done",
+                        "due_in_days": -5,
                     },
                     {
                         "title": "Design product and order API",
@@ -154,8 +154,8 @@ class SeedService:
                         "skills": "python, api, django",
                         "estimated_hours": "10",
                         "priority": "1",
-                        "status": "todo",
-                        "due_in_days": 5,
+                        "status": "done",
+                        "due_in_days": -2,
                     },
                     {
                         "title": "Build product list page",
@@ -163,8 +163,8 @@ class SeedService:
                         "skills": "javascript, react, css",
                         "estimated_hours": "8",
                         "priority": "2",
-                        "status": "todo",
-                        "due_in_days": 7,
+                        "status": "in_progress",
+                        "due_in_days": 3,
                     },
                     {
                         "title": "Implement checkout form",
@@ -172,8 +172,8 @@ class SeedService:
                         "skills": "react, javascript, ui",
                         "estimated_hours": "7",
                         "priority": "2",
-                        "status": "todo",
-                        "due_in_days": 9,
+                        "status": "in_progress",
+                        "due_in_days": 6,
                     },
                     {
                         "title": "Prepare PostgreSQL schema",
@@ -181,8 +181,8 @@ class SeedService:
                         "skills": "sql, python",
                         "estimated_hours": "5",
                         "priority": "1",
-                        "status": "todo",
-                        "due_in_days": 3,
+                        "status": "done",
+                        "due_in_days": -1,
                     },
                     {
                         "title": "Write API integration tests",
@@ -191,7 +191,7 @@ class SeedService:
                         "estimated_hours": "6",
                         "priority": "3",
                         "status": "todo",
-                        "due_in_days": 12,
+                        "due_in_days": 10,
                     },
                     {
                         "title": "Admin panel for store managers",
@@ -200,7 +200,7 @@ class SeedService:
                         "estimated_hours": "9",
                         "priority": "3",
                         "status": "todo",
-                        "due_in_days": 14,
+                        "due_in_days": 12,
                     },
                     {
                         "title": "Responsive UI polish",
@@ -217,8 +217,8 @@ class SeedService:
                         "skills": "python, api",
                         "estimated_hours": "8",
                         "priority": "2",
-                        "status": "todo",
-                        "due_in_days": 10,
+                        "status": "in_progress",
+                        "due_in_days": 8,
                     },
                     {
                         "title": "Order status email notifications",
@@ -262,8 +262,8 @@ class SeedService:
                         "skills": "python, django, sql",
                         "estimated_hours": "5",
                         "priority": "1",
-                        "status": "todo",
-                        "due_in_days": 4,
+                        "status": "done",
+                        "due_in_days": -4,
                     },
                     {
                         "title": "Employee leave form",
@@ -271,8 +271,8 @@ class SeedService:
                         "skills": "react, javascript, css",
                         "estimated_hours": "6",
                         "priority": "2",
-                        "status": "todo",
-                        "due_in_days": 8,
+                        "status": "in_progress",
+                        "due_in_days": 4,
                     },
                     {
                         "title": "Manager approval API",
@@ -281,7 +281,7 @@ class SeedService:
                         "estimated_hours": "7",
                         "priority": "1",
                         "status": "todo",
-                        "due_in_days": 11,
+                        "due_in_days": 9,
                     },
                     {
                         "title": "Calendar overview page",
@@ -290,7 +290,7 @@ class SeedService:
                         "estimated_hours": "8",
                         "priority": "3",
                         "status": "todo",
-                        "due_in_days": 15,
+                        "due_in_days": 14,
                     },
                     {
                         "title": "Basic validation tests",

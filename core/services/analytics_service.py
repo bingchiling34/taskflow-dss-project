@@ -15,11 +15,51 @@ class AnalyticsService:
         self.runs = AllocationRunRepository()
 
     def get_overview(self):
+        tasks = self.tasks.list_all()
+        projects = self.projects.list_all()
+
+        todo_count = 0
+        in_progress_count = 0
+        done_count = 0
+        for task in tasks:
+            if task.status == "todo":
+                todo_count = todo_count + 1
+            elif task.status == "in_progress":
+                in_progress_count = in_progress_count + 1
+            elif task.status == "done":
+                done_count = done_count + 1
+
+        hours_by_project = {}
+        for project in projects:
+            hours_by_project[project.id] = {
+                "name": project.name,
+                "hours": 0.0,
+            }
+        for task in tasks:
+            if task.project_id not in hours_by_project:
+                continue
+            hours_by_project[task.project_id]["hours"] = (
+                hours_by_project[task.project_id]["hours"]
+                + float(task.estimated_hours)
+            )
+
+        project_labels = []
+        project_hours = []
+        for project in projects:
+            row = hours_by_project[project.id]
+            project_labels.append(row["name"])
+            project_hours.append(row["hours"])
+
         data = {}
         data["project_count"] = self.projects.count()
         data["worker_count"] = self.workers.count()
         data["task_count"] = self.tasks.count()
         data["allocation_run_count"] = self.runs.count()
+        data["status_labels"] = ["To do", "In progress", "Done"]
+        data["status_values"] = [todo_count, in_progress_count, done_count]
+        data["project_hour_labels"] = project_labels
+        data["project_hour_values"] = project_hours
+        data["has_overview_charts"] = len(tasks) > 0
         return data
 
     def get_project_comparison(self, project_id):

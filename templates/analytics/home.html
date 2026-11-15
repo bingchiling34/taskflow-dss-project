@@ -55,6 +55,32 @@
     </div>
   </div>
 
+  {% if has_overview_charts %}
+    <div class="panel">
+      <h2 class="panel-title">{% include "partials/icon.html" with name="i-chart" class="icon-title" %} Workspace snapshot</h2>
+      <div class="chart-pair">
+        <div>
+          <h3 class="chart-subtitle">Task status</h3>
+          <div class="chart-box chart-box-pie">
+            <canvas id="overviewStatusChart"></canvas>
+          </div>
+        </div>
+        <div>
+          <h3 class="chart-subtitle">Estimated hours by project</h3>
+          <div class="chart-box">
+            <canvas id="overviewHoursChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <p class="field-hint">Global view across all projects. Algorithm comparison is below.</p>
+    </div>
+
+    {{ status_labels|json_script:"overview-status-labels" }}
+    {{ status_values|json_script:"overview-status-values" }}
+    {{ project_hour_labels|json_script:"overview-hour-labels" }}
+    {{ project_hour_values|json_script:"overview-hour-values" }}
+  {% endif %}
+
   <div class="toolbar">
     <p class="muted">Compare allocation algorithms using duration, load balance, and assigned tasks.</p>
   </div>
@@ -182,21 +208,21 @@
 {% endblock %}
 
 {% block extra_js %}
-  {% if comparison and comparison.has_data %}
+  {% if has_overview_charts or comparison and comparison.has_data %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
-      const labels = JSON.parse(document.getElementById("chart-labels").textContent);
-      const durations = JSON.parse(document.getElementById("chart-durations").textContent);
-      const balances = JSON.parse(document.getElementById("chart-balances").textContent);
-      const assigned = JSON.parse(document.getElementById("chart-assigned").textContent);
       const pieColors = ["#7c3aed", "#a78bfa", "#5b21b6"];
+      const statusColors = ["#94a3b8", "#f59e0b", "#22c55e"];
 
-      function makeBarChart(canvasId, title, values, color) {
+      function makeBarChart(canvasId, chartLabels, title, values, color) {
         const canvas = document.getElementById(canvasId);
+        if (!canvas) {
+          return;
+        }
         new Chart(canvas, {
           type: "bar",
           data: {
-            labels: labels,
+            labels: chartLabels,
             datasets: [{
               label: title,
               data: values,
@@ -216,16 +242,19 @@
         });
       }
 
-      function makeRoundChart(canvasId, chartType, title, values) {
+      function makeRoundChart(canvasId, chartType, chartLabels, title, values, colors) {
         const canvas = document.getElementById(canvasId);
+        if (!canvas) {
+          return;
+        }
         new Chart(canvas, {
           type: chartType,
           data: {
-            labels: labels,
+            labels: chartLabels,
             datasets: [{
               label: title,
               data: values,
-              backgroundColor: pieColors
+              backgroundColor: colors
             }]
           },
           options: {
@@ -238,14 +267,44 @@
         });
       }
 
-      makeBarChart("durationBarChart", "Duration", durations, "#7c3aed");
-      makeRoundChart("durationPieChart", "pie", "Duration", durations);
+      {% if has_overview_charts %}
+      const overviewStatusLabels = JSON.parse(document.getElementById("overview-status-labels").textContent);
+      const overviewStatusValues = JSON.parse(document.getElementById("overview-status-values").textContent);
+      const overviewHourLabels = JSON.parse(document.getElementById("overview-hour-labels").textContent);
+      const overviewHourValues = JSON.parse(document.getElementById("overview-hour-values").textContent);
 
-      makeBarChart("balanceBarChart", "Load balance", balances, "#a78bfa");
-      makeRoundChart("balanceDoughnutChart", "doughnut", "Load balance", balances);
+      makeRoundChart(
+        "overviewStatusChart",
+        "doughnut",
+        overviewStatusLabels,
+        "Task status",
+        overviewStatusValues,
+        statusColors
+      );
+      makeBarChart(
+        "overviewHoursChart",
+        overviewHourLabels,
+        "Estimated hours",
+        overviewHourValues,
+        "#7c3aed"
+      );
+      {% endif %}
 
-      makeBarChart("assignedBarChart", "Assigned tasks", assigned, "#5b21b6");
-      makeRoundChart("assignedPieChart", "pie", "Assigned tasks", assigned);
+      {% if comparison and comparison.has_data %}
+      const labels = JSON.parse(document.getElementById("chart-labels").textContent);
+      const durations = JSON.parse(document.getElementById("chart-durations").textContent);
+      const balances = JSON.parse(document.getElementById("chart-balances").textContent);
+      const assigned = JSON.parse(document.getElementById("chart-assigned").textContent);
+
+      makeBarChart("durationBarChart", labels, "Duration", durations, "#7c3aed");
+      makeRoundChart("durationPieChart", "pie", labels, "Duration", durations, pieColors);
+
+      makeBarChart("balanceBarChart", labels, "Load balance", balances, "#a78bfa");
+      makeRoundChart("balanceDoughnutChart", "doughnut", labels, "Load balance", balances, pieColors);
+
+      makeBarChart("assignedBarChart", labels, "Assigned tasks", assigned, "#5b21b6");
+      makeRoundChart("assignedPieChart", "pie", labels, "Assigned tasks", assigned, pieColors);
+      {% endif %}
     </script>
   {% endif %}
 {% endblock %}
