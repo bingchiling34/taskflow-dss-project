@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from core.models import Project
-from core.services import ProjectService
+from core.services import ProjectService, WarningService
 
 
 def project_list(request):
@@ -60,6 +60,7 @@ def project_detail(request, project_id):
         "worker_count": project.workers.count(),
         "task_count": project.tasks.count(),
         "allocation_run_count": project.allocation_runs.count(),
+        "warnings": WarningService().build_for_project(project_id),
     }
     return render(request, "projects/detail.html", context)
 

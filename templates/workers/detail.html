@@ -53,6 +53,7 @@
         <div class="workload-caption">
           {{ workload.percent }}% of available capacity
           {% if not workload.has_run %} · no allocation run yet{% endif %}
+          {% if workload.level == "full" %} · <span class="warn-tag">Fully loaded</span>{% endif %}
         </div>
       </div>
     </div>

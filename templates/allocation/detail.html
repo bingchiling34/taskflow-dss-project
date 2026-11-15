@@ -15,6 +15,8 @@
     </div>
   </div>
 
+  {% include "partials/warnings.html" %}
+
   <div class="panel">
     <div class="detail-row">
       <span class="label">Project</span>
@@ -48,7 +50,7 @@
 
   <div class="panel">
     <h2>Assignments</h2>
-    {% if assignments %}
+    {% if assignment_rows %}
       <table class="table">
         <thead>
           <tr>
@@ -57,16 +59,24 @@
             <th>Required skills</th>
             <th>Worker</th>
             <th>Worker skills</th>
+            <th class="warning-cell">Warning</th>
           </tr>
         </thead>
         <tbody>
-          {% for item in assignments %}
-            <tr>
-              <td>{{ item.task.title }}</td>
-              <td>{{ item.task.estimated_hours }}</td>
-              <td>{% if item.task.required_skills %}{{ item.task.required_skills|join:", " }}{% else %}—{% endif %}</td>
-              <td>{{ item.worker.name }}</td>
-              <td>{% if item.worker.skills %}{{ item.worker.skills|join:", " }}{% else %}—{% endif %}</td>
+          {% for row in assignment_rows %}
+            <tr class="{% if row.has_skill_gap %}row-warning{% endif %}">
+              <td>{{ row.assignment.task.title }}</td>
+              <td>{{ row.assignment.task.estimated_hours }}</td>
+              <td>{% if row.assignment.task.required_skills %}{{ row.assignment.task.required_skills|join:", " }}{% else %}—{% endif %}</td>
+              <td>{{ row.assignment.worker.name }}</td>
+              <td>{% if row.assignment.worker.skills %}{{ row.assignment.worker.skills|join:", " }}{% else %}—{% endif %}</td>
+              <td class="warning-cell">
+                {% if row.has_skill_gap %}
+                  <span class="warn-tag">Missing: {{ row.missing_skills|join:", " }}</span>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}
         </tbody>

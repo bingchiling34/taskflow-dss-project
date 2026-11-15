@@ -54,6 +54,8 @@
   </div>
 
   {% if selected_project %}
+    {% include "partials/warnings.html" %}
+
     <div class="panel">
       <h2>Previous runs</h2>
       {% if run_rows %}

@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from core.models import AllocationRun
-from core.services import AllocationService, ProjectService
+from core.services import AllocationService, ProjectService, WarningService
 from core.services.algorithms import ALGORITHM_CHOICES
 
 
@@ -22,6 +22,7 @@ def allocation_home(request):
     selected_project = None
     run_rows = []
 
+    warnings = []
     if project_id:
         selected_project = ProjectService().get_project(project_id)
         if selected_project is not None:
@@ -33,6 +34,7 @@ def allocation_home(request):
                         "label": _algorithm_label(run.algorithm),
                     }
                 )
+            warnings = WarningService().build_for_project(project_id)
 
     return render(
         request,
@@ -42,6 +44,7 @@ def allocation_home(request):
             "selected_project": selected_project,
             "algorithms": ALGORITHM_CHOICES,
             "run_rows": run_rows,
+            "warnings": warnings,
         },
     )
 
@@ -83,13 +86,15 @@ def allocation_run_detail(request, run_id):
     service = AllocationService()
     run = get_object_or_404(AllocationRun.objects.select_related("project"), pk=run_id)
     assignments = service.get_run_assignments(run_id)
+    assignment_rows = WarningService().annotate_assignments(assignments)
     return render(
         request,
         "allocation/detail.html",
         {
             "run": run,
-            "assignments": assignments,
+            "assignment_rows": assignment_rows,
             "algorithm_label": _algorithm_label(run.algorithm),
+            "warnings": WarningService().build_for_project(run.project_id),
         },
     )
 

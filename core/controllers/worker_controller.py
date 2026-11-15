@@ -4,16 +4,19 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from core.models import Worker
-from core.services import ProjectService, WorkerService, WorkloadService
+from core.services import ProjectService, WarningService, WorkerService, WorkloadService
 
 
 def worker_list(request):
     service = WorkerService()
     project_id = request.GET.get("project")
     selected_project = None
+    warnings = []
     if project_id:
         selected_project = ProjectService().get_project(project_id)
         workers = service.list_workers(project_id)
+        if selected_project is not None:
+            warnings = WarningService().build_for_project(project_id)
     else:
         workers = service.list_workers()
 
@@ -26,6 +29,7 @@ def worker_list(request):
             "workload_rows": workload_rows,
             "selected_project": selected_project,
             "projects": ProjectService().list_projects(),
+            "warnings": warnings,
         },
     )
 

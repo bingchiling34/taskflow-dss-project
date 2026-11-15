@@ -16,6 +16,8 @@
     <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New worker</a>
   </div>
 
+  {% include "partials/warnings.html" %}
+
   <div class="panel">
     <form method="get" class="filter-row">
       <label for="project">Filter by project</label>
@@ -41,6 +43,9 @@
             <div class="workload-top">
               <div>
                 <a class="workload-name" href="{% url 'worker_detail' row.worker.id %}">{{ row.worker.name }}</a>
+                {% if row.level == "full" %}
+                  <span class="warn-tag">Fully loaded</span>
+                {% endif %}
                 <div class="workload-meta">{{ row.worker.project.name }} · {% if row.worker.skills %}{{ row.worker.skills|join:", " }}{% else %}no skills{% endif %}</div>
               </div>
               <div class="workload-hours">{{ row.used_hours }}/{{ row.capacity_hours }} h</div>
