@@ -34,6 +34,10 @@
       <span>{{ task.estimated_hours }}</span>
     </div>
     <div class="detail-row">
+      <span class="label">Due date</span>
+      <span>{% if task.due_date %}{{ task.due_date }}{% else %}No due date.{% endif %}</span>
+    </div>
+    <div class="detail-row">
       <span class="label">Skills</span>
       <span>{% if skills_text %}{{ skills_text }}{% else %}No required skills.{% endif %}</span>
     </div>

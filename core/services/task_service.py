@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal, InvalidOperation
 
 from core.repositories import ProjectRepository, TaskRepository
@@ -17,6 +18,9 @@ class TaskService:
             return self.tasks.list_by_project(project_id)
         return self.tasks.list_all()
 
+    def list_tasks_with_due_date(self, project_id=None):
+        return self.tasks.list_with_due_date(project_id)
+
     def get_task(self, task_id):
         return self.tasks.get_by_id(task_id)
 
@@ -29,6 +33,7 @@ class TaskService:
         estimated_hours="1",
         priority="3",
         status="todo",
+        due_date="",
     ):
         clean = self._clean_fields(
             project_id,
@@ -38,6 +43,7 @@ class TaskService:
             estimated_hours,
             priority,
             status,
+            due_date,
         )
         if clean["errors"]:
             return None, clean["errors"]
@@ -49,6 +55,7 @@ class TaskService:
             clean["estimated_hours"],
             clean["priority"],
             clean["status"],
+            clean["due_date"],
         )
         return task, {}
 
@@ -62,6 +69,7 @@ class TaskService:
         estimated_hours="1",
         priority="3",
         status="todo",
+        due_date="",
     ):
         clean = self._clean_fields(
             project_id,
@@ -71,6 +79,7 @@ class TaskService:
             estimated_hours,
             priority,
             status,
+            due_date,
         )
         if clean["errors"]:
             return None, clean["errors"]
@@ -83,6 +92,7 @@ class TaskService:
             clean["estimated_hours"],
             clean["priority"],
             clean["status"],
+            clean["due_date"],
         )
         return updated, {}
 
@@ -94,6 +104,11 @@ class TaskService:
             return ""
         return ", ".join(skills)
 
+    def due_date_to_text(self, due_date):
+        if due_date is None:
+            return ""
+        return due_date.isoformat()
+
     def _clean_fields(
         self,
         project_id,
@@ -103,6 +118,7 @@ class TaskService:
         estimated_hours,
         priority,
         status,
+        due_date,
     ):
         errors = {}
         clean_title = (title or "").strip()
@@ -143,6 +159,14 @@ class TaskService:
         if clean_status not in self.VALID_STATUSES:
             errors["status"] = "Status must be todo, in_progress, or done."
 
+        parsed_due_date = None
+        due_text = (due_date or "").strip()
+        if due_text != "":
+            try:
+                parsed_due_date = datetime.strptime(due_text, "%Y-%m-%d").date()
+            except ValueError:
+                errors["due_date"] = "Due date must use format YYYY-MM-DD."
+
         return {
             "project": project,
             "title": clean_title,
@@ -151,6 +175,7 @@ class TaskService:
             "estimated_hours": hours,
             "priority": priority_value,
             "status": clean_status,
+            "due_date": parsed_due_date,
             "errors": errors,
         }
 

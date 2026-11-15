@@ -503,6 +503,81 @@ a {
   height: 260px;
 }
 
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.calendar-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-weekday {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666666;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.calendar-day {
+  min-height: 96px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.calendar-day.is-empty {
+  background: #f9fafb;
+  border-style: dashed;
+}
+
+.calendar-day.is-today {
+  border-color: #0f766e;
+  box-shadow: inset 0 0 0 1px #0f766e;
+}
+
+.calendar-day-number {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.calendar-task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-task-list li {
+  margin-bottom: 6px;
+}
+
+.calendar-task-list a {
+  display: block;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.calendar-task-meta {
+  display: block;
+  color: #666666;
+  font-size: 11px;
+}
+
 @media (max-width: 900px) {
   .app-shell {
     flex-direction: column;
@@ -524,5 +599,14 @@ a {
 
   .chart-pair {
     grid-template-columns: 1fr;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    min-height: 72px;
+    padding: 6px;
   }
 }

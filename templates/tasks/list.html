@@ -37,6 +37,7 @@
             <th>Project</th>
             <th>Priority</th>
             <th>Hours</th>
+            <th>Due</th>
             <th>Status</th>
             <th></th>
           </tr>
@@ -48,6 +49,7 @@
               <td>{{ task.project.name }}</td>
               <td>{{ task.priority }}</td>
               <td>{{ task.estimated_hours }}</td>
+              <td>{% if task.due_date %}{{ task.due_date }}{% else %}—{% endif %}</td>
               <td><span class="badge badge-{{ task.status }}">{{ task.get_status_display }}</span></td>
               <td class="actions"><a href="{% url 'task_edit' task.id %}">Edit</a></td>
             </tr>

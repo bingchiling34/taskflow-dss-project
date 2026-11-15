@@ -50,6 +50,7 @@ def task_create(request):
                     "estimated_hours": "1",
                     "priority": "3",
                     "status": "todo",
+                    "due_date": "",
                 },
                 "errors": {},
             },
@@ -63,6 +64,7 @@ def task_create(request):
         "estimated_hours": request.POST.get("estimated_hours", "1"),
         "priority": request.POST.get("priority", "3"),
         "status": request.POST.get("status", "todo"),
+        "due_date": request.POST.get("due_date", ""),
     }
     task, errors = service.create_task(
         form_data["project_id"],
@@ -72,6 +74,7 @@ def task_create(request):
         form_data["estimated_hours"],
         form_data["priority"],
         form_data["status"],
+        form_data["due_date"],
     )
     if errors:
         return render(
@@ -124,6 +127,7 @@ def task_edit(request, task_id):
                     "estimated_hours": str(task.estimated_hours),
                     "priority": str(task.priority),
                     "status": task.status,
+                    "due_date": service.due_date_to_text(task.due_date),
                 },
                 "errors": {},
             },
@@ -137,6 +141,7 @@ def task_edit(request, task_id):
         "estimated_hours": request.POST.get("estimated_hours", "1"),
         "priority": request.POST.get("priority", "3"),
         "status": request.POST.get("status", "todo"),
+        "due_date": request.POST.get("due_date", ""),
     }
     updated, errors = service.update_task(
         task,
@@ -147,6 +152,7 @@ def task_edit(request, task_id):
         form_data["estimated_hours"],
         form_data["priority"],
         form_data["status"],
+        form_data["due_date"],
     )
     if errors:
         return render(

@@ -25,6 +25,7 @@ class Task(models.Model):
         choices=STATUS_CHOICES,
         default="todo",
     )
+    due_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

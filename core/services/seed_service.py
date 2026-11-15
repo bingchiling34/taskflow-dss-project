@@ -1,3 +1,7 @@
+from datetime import timedelta
+
+from django.utils import timezone
+
 from core.models import Project
 from core.services.project_service import ProjectService
 from core.services.task_service import TaskService
@@ -61,6 +65,7 @@ class SeedService:
                 total_workers = total_workers + 1
 
             for item in project_data["tasks"]:
+                due_date = self._due_date_text(item.get("due_in_days"))
                 task, task_errors = self.tasks.create_task(
                     project.id,
                     item["title"],
@@ -69,6 +74,7 @@ class SeedService:
                     item["estimated_hours"],
                     item["priority"],
                     item["status"],
+                    due_date,
                 )
                 if task_errors:
                     return {
@@ -89,6 +95,12 @@ class SeedService:
             + str(len(created_projects))
             + " projects).",
         }
+
+    def _due_date_text(self, due_in_days):
+        if due_in_days is None:
+            return ""
+        due = timezone.localdate() + timedelta(days=int(due_in_days))
+        return due.isoformat()
 
     def _project_rows(self):
         return [
@@ -134,6 +146,7 @@ class SeedService:
                         "estimated_hours": "6",
                         "priority": "1",
                         "status": "todo",
+                        "due_in_days": 2,
                     },
                     {
                         "title": "Design product and order API",
@@ -142,6 +155,7 @@ class SeedService:
                         "estimated_hours": "10",
                         "priority": "1",
                         "status": "todo",
+                        "due_in_days": 5,
                     },
                     {
                         "title": "Build product list page",
@@ -150,6 +164,7 @@ class SeedService:
                         "estimated_hours": "8",
                         "priority": "2",
                         "status": "todo",
+                        "due_in_days": 7,
                     },
                     {
                         "title": "Implement checkout form",
@@ -158,6 +173,7 @@ class SeedService:
                         "estimated_hours": "7",
                         "priority": "2",
                         "status": "todo",
+                        "due_in_days": 9,
                     },
                     {
                         "title": "Prepare PostgreSQL schema",
@@ -166,6 +182,7 @@ class SeedService:
                         "estimated_hours": "5",
                         "priority": "1",
                         "status": "todo",
+                        "due_in_days": 3,
                     },
                     {
                         "title": "Write API integration tests",
@@ -174,6 +191,7 @@ class SeedService:
                         "estimated_hours": "6",
                         "priority": "3",
                         "status": "todo",
+                        "due_in_days": 12,
                     },
                     {
                         "title": "Admin panel for store managers",
@@ -182,6 +200,7 @@ class SeedService:
                         "estimated_hours": "9",
                         "priority": "3",
                         "status": "todo",
+                        "due_in_days": 14,
                     },
                     {
                         "title": "Responsive UI polish",
@@ -190,6 +209,7 @@ class SeedService:
                         "estimated_hours": "4",
                         "priority": "4",
                         "status": "todo",
+                        "due_in_days": 16,
                     },
                     {
                         "title": "Payment provider sandbox integration",
@@ -198,6 +218,7 @@ class SeedService:
                         "estimated_hours": "8",
                         "priority": "2",
                         "status": "todo",
+                        "due_in_days": 10,
                     },
                     {
                         "title": "Order status email notifications",
@@ -206,6 +227,7 @@ class SeedService:
                         "estimated_hours": "5",
                         "priority": "4",
                         "status": "todo",
+                        "due_in_days": 18,
                     },
                 ],
             },
@@ -241,6 +263,7 @@ class SeedService:
                         "estimated_hours": "5",
                         "priority": "1",
                         "status": "todo",
+                        "due_in_days": 4,
                     },
                     {
                         "title": "Employee leave form",
@@ -249,6 +272,7 @@ class SeedService:
                         "estimated_hours": "6",
                         "priority": "2",
                         "status": "todo",
+                        "due_in_days": 8,
                     },
                     {
                         "title": "Manager approval API",
@@ -257,6 +281,7 @@ class SeedService:
                         "estimated_hours": "7",
                         "priority": "1",
                         "status": "todo",
+                        "due_in_days": 11,
                     },
                     {
                         "title": "Calendar overview page",
@@ -265,6 +290,7 @@ class SeedService:
                         "estimated_hours": "8",
                         "priority": "3",
                         "status": "todo",
+                        "due_in_days": 15,
                     },
                     {
                         "title": "Basic validation tests",
@@ -273,6 +299,7 @@ class SeedService:
                         "estimated_hours": "4",
                         "priority": "3",
                         "status": "todo",
+                        "due_in_days": 17,
                     },
                     {
                         "title": "Export leave report to CSV",
@@ -281,6 +308,7 @@ class SeedService:
                         "estimated_hours": "3",
                         "priority": "4",
                         "status": "todo",
+                        "due_in_days": 20,
                     },
                 ],
             },
