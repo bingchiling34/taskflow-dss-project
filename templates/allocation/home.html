@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load display_extras %}
 
 {% block title %}Allocation - TaskFlow DSS{% endblock %}
 {% block page_title %}Allocation{% endblock %}
@@ -76,7 +77,7 @@
                 <td>{{ row.run.total_duration_hours }}</td>
                 <td>{{ row.run.load_balance_score }}</td>
                 <td>{{ row.run.completed_tasks_count }}</td>
-                <td>{{ row.run.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ row.run.created_at|friendly_date }}</td>
                 <td class="actions">
                   <a href="{% url 'allocation_run_detail' row.run.id %}">Open</a>
                 </td>
@@ -86,7 +87,10 @@
         </table>
         <p class="field-hint">Load balance = max load minus min load (lower is better). Duration = max worker load.</p>
       {% else %}
-        <p class="muted">No allocation runs for this project yet.</p>
+        <div class="empty-state">
+          <p>No allocation runs yet.</p>
+          <p class="muted">Run an algorithm above to create the first comparison result.</p>
+        </div>
       {% endif %}
     </div>
   {% endif %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load display_extras %}
 
 {% block title %}Analytics - TaskFlow DSS{% endblock %}
 {% block page_title %}Analytics{% endblock %}
@@ -50,15 +51,18 @@
 
   {% if not selected_project %}
     <div class="panel">
-      <p class="muted">Select a project to see analytics.</p>
+      <div class="empty-state">
+        <p>No project selected.</p>
+        <p class="muted">Choose a project above to compare allocation algorithms.</p>
+      </div>
     </div>
   {% elif not comparison.has_data %}
     <div class="panel">
-      <p class="muted">
-        No allocation runs for this project yet.
-        Go to <a href="{% url 'allocation_home' %}?project={{ selected_project.id }}">Allocation</a>
-        and run algorithms first.
-      </p>
+      <div class="empty-state">
+        <p>No allocation runs for this project yet.</p>
+        <p class="muted">Run algorithms first, then return here to compare results.</p>
+        <a class="btn btn-primary" href="{% url 'allocation_home' %}?project={{ selected_project.id }}">Go to Allocation</a>
+      </div>
     </div>
   {% else %}
     <div class="panel">
@@ -98,7 +102,7 @@
               <td>{{ row.duration }}</td>
               <td>{{ row.load_balance }}</td>
               <td>{{ row.assigned_tasks }}</td>
-              <td>{{ row.run.created_at|date:"Y-m-d H:i" }}</td>
+              <td>{{ row.run.created_at|friendly_date }}</td>
               <td class="actions">
                 <a href="{% url 'allocation_run_detail' row.run.id %}">Open run</a>
               </td>

@@ -53,7 +53,11 @@
         </tbody>
       </table>
     {% else %}
-      <p class="muted">No workers yet. Create the first one to continue.</p>
+      <div class="empty-state">
+        <p>No workers yet.</p>
+        <p class="muted">Add team members to prepare for task allocation.</p>
+        <a class="btn btn-primary" href="{% url 'worker_create' %}{% if selected_project %}?project={{ selected_project.id }}{% endif %}">New worker</a>
+      </div>
     {% endif %}
   </div>
 {% endblock %}

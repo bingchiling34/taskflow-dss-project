@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load display_extras %}
 
 {% block title %}{{ task.title }} - TaskFlow DSS{% endblock %}
 {% block page_title %}{{ task.title }}{% endblock %}
@@ -38,11 +39,11 @@
     </div>
     <div class="detail-row">
       <span class="label">Created</span>
-      <span>{{ task.created_at|date:"Y-m-d H:i" }}</span>
+      <span>{{ task.created_at|friendly_date }}</span>
     </div>
     <div class="detail-row">
       <span class="label">Updated</span>
-      <span>{{ task.updated_at|date:"Y-m-d H:i" }}</span>
+      <span>{{ task.updated_at|friendly_date }}</span>
     </div>
     <div class="detail-block">
       <span class="label">Description</span>

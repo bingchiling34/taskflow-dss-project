@@ -154,6 +154,20 @@ a {
   color: #666666;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 28px 16px;
+}
+
+.empty-state p {
+  margin: 0 0 8px 0;
+  color: #222222;
+}
+
+.empty-state .muted {
+  margin-bottom: 16px;
+}
+
 .btn {
   display: inline-block;
   border: 1px solid #cccccc;
