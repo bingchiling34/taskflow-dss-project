@@ -8,11 +8,14 @@ from core.controllers import (
     allocation_run_detail,
     analytics_home,
     calendar_home,
+    login_view,
+    logout_view,
     project_create,
     project_delete,
     project_detail,
     project_edit,
     project_list,
+    register_view,
     task_create,
     task_delete,
     task_detail,
@@ -26,6 +29,9 @@ from core.controllers import (
 )
 
 urlpatterns = [
+    path("accounts/login/", login_view, name="login"),
+    path("accounts/register/", register_view, name="register"),
+    path("accounts/logout/", logout_view, name="logout"),
     path(
         "",
         RedirectView.as_view(pattern_name="project_list", permanent=False),

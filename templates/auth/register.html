@@ -1,0 +1,40 @@
+{% extends "auth/base_auth.html" %}
+
+{% block title %}Create account - Venik{% endblock %}
+
+{% block content %}
+  <h1 class="auth-title">Create account</h1>
+  <p class="muted">Register to start managing projects and allocations.</p>
+
+  <form method="post" class="form auth-form">
+    {% csrf_token %}
+
+    <div class="form-field">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" value="{{ form_data.username }}" required autofocus>
+      {% if errors.username %}<div class="form-error">{{ errors.username }}</div>{% endif %}
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required>
+      <div class="field-hint">At least 6 characters.</div>
+      {% if errors.password %}<div class="form-error">{{ errors.password }}</div>{% endif %}
+    </div>
+
+    <div class="form-field">
+      <label for="password_confirm">Confirm password</label>
+      <input id="password_confirm" name="password_confirm" type="password" required>
+      {% if errors.password_confirm %}<div class="form-error">{{ errors.password_confirm }}</div>{% endif %}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Create account</button>
+    </div>
+  </form>
+
+  <p class="auth-footer muted">
+    Already have an account?
+    <a class="panel-link" href="{% url 'login' %}">Sign in</a>
+  </p>
+{% endblock %}

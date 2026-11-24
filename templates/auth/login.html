@@ -1,0 +1,36 @@
+{% extends "auth/base_auth.html" %}
+
+{% block title %}Sign in - Venik{% endblock %}
+
+{% block content %}
+  <h1 class="auth-title">Sign in</h1>
+  <p class="muted">Access your projects, workers, and allocation tools.</p>
+
+  <form method="post" class="form auth-form">
+    {% csrf_token %}
+    {% if next_url %}
+      <input type="hidden" name="next" value="{{ next_url }}">
+    {% endif %}
+
+    <div class="form-field">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" value="{{ form_data.username }}" required autofocus>
+      {% if errors.username %}<div class="form-error">{{ errors.username }}</div>{% endif %}
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required>
+      {% if errors.password %}<div class="form-error">{{ errors.password }}</div>{% endif %}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+  </form>
+
+  <p class="auth-footer muted">
+    No account yet?
+    <a class="panel-link" href="{% url 'register' %}">Create one</a>
+  </p>
+{% endblock %}

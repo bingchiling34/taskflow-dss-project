@@ -5,6 +5,7 @@ from .allocation_controller import (
     allocation_run_detail,
 )
 from .analytics_controller import analytics_home
+from .auth_controller import login_view, logout_view, register_view
 from .calendar_controller import calendar_home
 from .project_controller import (
     project_create,
