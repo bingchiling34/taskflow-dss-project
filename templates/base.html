@@ -77,18 +77,27 @@
         return;
       }
 
-      form.setAttribute("data-loading", "1");
-      form.classList.add("is-loading");
+      queueMicrotask(function () {
+        if (event.defaultPrevented) {
+          return;
+        }
+        if (form.getAttribute("data-loading") === "1") {
+          return;
+        }
 
-      var buttons = form.querySelectorAll('button[type="submit"]');
-      var i = 0;
-      while (i < buttons.length) {
-        var button = buttons[i];
-        button.disabled = true;
-        button.classList.add("is-loading");
-        button.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span> Working...';
-        i = i + 1;
-      }
+        form.setAttribute("data-loading", "1");
+        form.classList.add("is-loading");
+
+        var buttons = form.querySelectorAll('button[type="submit"]');
+        var i = 0;
+        while (i < buttons.length) {
+          var button = buttons[i];
+          button.disabled = true;
+          button.classList.add("is-loading");
+          button.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span> Working...';
+          i = i + 1;
+        }
+      });
     });
   </script>
   {% block extra_js %}{% endblock %}
